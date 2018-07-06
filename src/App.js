@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Stock from './Stock.js';
 
 class App extends Component {
   render() {
@@ -9,6 +10,7 @@ class App extends Component {
           <h1 className="App-title">Stockwatch</h1>
         </header>
         <p className="App-intro">
+          <Stock />
         </p>
       </div>
     );
