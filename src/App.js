@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Stock from './Stock.js';
+import Stock from './components/Stock.js';
 
 class App extends Component {
   render() {
