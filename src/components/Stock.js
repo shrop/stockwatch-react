@@ -26,11 +26,11 @@ class Stock extends Component {
       collectionPath: 'node/stock'
     });
 
-    let { res, errors, meta, links } = jsonApi.find('node--stock', 'f6acda8e-2904-4bf5-820c-1a7fa3fe079c')
-      .then((res) => {
-        console.log(res);
+    let { response, errors, meta, links } = jsonApi.find('node--stock', 'f6acda8e-2904-4bf5-820c-1a7fa3fe079c')
+      .then((response) => {
+        console.log(response);
         this.setState({
-          stocks: res.data.symbol
+          stocks: response.data.symbol
         });
       });
   }
