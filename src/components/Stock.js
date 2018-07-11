@@ -32,7 +32,7 @@ class Stock extends Component {
         this.setState({
           stocks: response.data.symbol
         });
-      });
+    });
   }
 
   render() {
