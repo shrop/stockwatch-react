@@ -25,10 +25,17 @@ body {
  * Login Form.
  */
 .login-form {
-  max-width: 300px;
+  max-width: 450px;
   margin-top: 2rem;
   margin-left: auto;
   margin-right: auto;
+}
+.login-form__logo {
+  margin-bottom: 2rem;
+}
+
+.login-form__logo img {
+  width: 100%;
 }
 
 .login-form__input {
