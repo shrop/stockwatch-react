@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Stock from './components/Stock.js';
+import Login from './components/Login.js';
 
 class App extends Component {
   render() {
@@ -11,6 +12,7 @@ class App extends Component {
         </header>
         <p className="App-intro">
           <Stock />
+          <Login />
         </p>
       </div>
     );
