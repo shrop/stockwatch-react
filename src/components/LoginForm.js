@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
-import JsonApi from 'devour-client'
-
-class Login extends Component {
+import Logo from './Logo.js';
+class LoginForm extends Component {
 
   constructor(props) {
     super(props);
@@ -32,13 +31,18 @@ class Login extends Component {
 
   render() {
     return (
-      <form class="login-form" onSubmit={this.handleSubmit}>
-        <input class="login-form__input" name="email" type="text" placeholder="Email Address" value={this.state.email} onChange={this.handleChange} />
-        <input class="login-form__input" name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
-        <input class="login-form__cta" type="submit" value="Submit" />
-      </form>
+      <div>
+        <form class="login-form" onSubmit={this.handleSubmit}>
+          <div class="login-form__logo">
+            <Logo />
+          </div>
+          <input class="login-form__input" name="email" type="text" placeholder="Email Address" value={this.state.email} onChange={this.handleChange} />
+          <input class="login-form__input" name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
+          <input class="login-form__cta" type="submit" value="Submit" />
+        </form>
+      </div>
     );
   }
 }
 
-export default Login;
+export default LoginForm;
