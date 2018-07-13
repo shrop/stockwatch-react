@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import Logo from './Logo';
+
 class LoginForm extends Component {
 
   constructor(props) {
@@ -11,7 +11,6 @@ class LoginForm extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -24,27 +23,19 @@ class LoginForm extends Component {
     });
   }
 
-  handleSubmit(event) {
-    alert('Do something fancy like log in and get session token');
-    event.preventDefault();
-  }
-
   render() {
     let buttonText;
-    let loginState;
 
     if (this.props.isLoggedIn === true) {
       buttonText = 'Log Out';
-      loginState = this.props.action;
     }
     else {
       buttonText = 'Log In';
-      loginState = this.props.action;
     }
 
     return (
       <div>
-        <form className="auth-form" onSubmit={loginState}>
+        <form className="auth-form" onSubmit={this.props.action}>
           <input className="auth-form__cta form-cta" type="submit" value={buttonText} />
         </form>
       </div>
