@@ -11,7 +11,7 @@ class Stock extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getStocks();
   }
 

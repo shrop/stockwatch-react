@@ -68,9 +68,6 @@ class StockSearch extends Component {
       </div>
     );
   }
-
-
-
 }
 
 export default StockSearch;
