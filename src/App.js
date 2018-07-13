@@ -12,17 +12,16 @@ class App extends Component {
       isLoggedIn: false
     }
 
-    this.loginStateToggle = this.loginStateToggle.bind(this);
+    this.authStateToggle = this.authStateToggle.bind(this);
   }
 
-  loginStateToggle(event) {
-    event.preventDefault()
+  authStateToggle(event) {
+    event.preventDefault();
 
-    const isLoggedIn = this.state.isLoggedIn;
-    if (isLoggedIn === true) {
+    if (this.state.isLoggedIn === true) {
       this.setState({
         isLoggedIn: false
-      })
+      });
     }
     else {
       this.setState({
@@ -39,9 +38,9 @@ class App extends Component {
 
     if (isLoggedIn) {
       login = <Welcome />;
-      search = <StockSearch />
+      search = <StockSearch />;
     } else {
-      login = <LoginForm />
+      login = <LoginForm />;
     }
 
     return (
@@ -52,11 +51,12 @@ class App extends Component {
 
             <div className="App-header__title">Stockwatch</div>
 
-            <form className="App-header__login login-toggle" onSubmit={this.loginStateToggle}>
-              <button className="toggleAuth form-cta">Login/Out</button>
-            </form>
+            <div className="App-header__login login-toggle">
+              <LoginForm action={this.authStateToggle} isLoggedIn={this.state.isLoggedIn} />
+            </div>
           </div>
         </header>
+
         <div className="App-intro container">
           {login}
           {search}
