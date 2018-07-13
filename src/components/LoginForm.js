@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import Logo from './Logo.js';
+import Logo from './Logo';
 class LoginForm extends Component {
 
   constructor(props) {
@@ -32,13 +32,13 @@ class LoginForm extends Component {
   render() {
     return (
       <div>
-        <form class="login-form" onSubmit={this.handleSubmit}>
-          <div class="login-form__logo">
+        <form className="login-form" onSubmit={this.handleSubmit}>
+          <div className="login-form__logo">
             <Logo />
           </div>
-          <input class="login-form__input" name="email" type="text" placeholder="Email Address" value={this.state.email} onChange={this.handleChange} />
-          <input class="login-form__input" name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
-          <input class="login-form__cta" type="submit" value="Submit" />
+          <input className="login-form__input form-input" name="email" type="text" placeholder="Email Address" value={this.state.email} onChange={this.handleChange} />
+          <input className="login-form__input form-input" name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
+          <input className="login-form__cta form-cta" type="submit" value="Submit" />
         </form>
       </div>
     );
