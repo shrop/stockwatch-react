@@ -30,15 +30,22 @@ class LoginForm extends Component {
   }
 
   render() {
+    let buttonText;
+    let loginState;
+
+    if (this.props.isLoggedIn === true) {
+      buttonText = 'Log Out';
+      loginState = this.props.action;
+    }
+    else {
+      buttonText = 'Log In';
+      loginState = this.props.action;
+    }
+
     return (
       <div>
-        <form className="login-form" onSubmit={this.handleSubmit}>
-          <div className="login-form__logo">
-            <Logo />
-          </div>
-          <input className="login-form__input form-input" name="email" type="text" placeholder="Email Address" value={this.state.email} onChange={this.handleChange} />
-          <input className="login-form__input form-input" name="password" type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} />
-          <input className="login-form__cta form-cta" type="submit" value="Submit" />
+        <form className="auth-form" onSubmit={loginState}>
+          <input className="auth-form__cta form-cta" type="submit" value={buttonText} />
         </form>
       </div>
     );
