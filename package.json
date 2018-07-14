@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "client-oauth2": "^4.2.1",
     "devour-client": "^2.0.13",
+    "emotion": "^9.2.5",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4"
