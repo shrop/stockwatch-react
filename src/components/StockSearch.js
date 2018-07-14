@@ -25,7 +25,9 @@ class StockSearch extends Component {
     event.preventDefault();
 
     const searchStock = this.state.searchedStock;
-    fetch('https://stockwatch-api.shropnet.net/jsonapi/node/stock')
+    const stockEndPoint = 'https://stockwatch-api.shropnet.net/jsonapi/node/stock';
+    const searchParams = 'filter[title][value]=' + searchStock + '&filter[title][operator]==';
+    fetch(stockEndPoint + '?' + searchParams)
       .then(res => res.json())
       .then(
         (result) => {
@@ -58,8 +60,12 @@ class StockSearch extends Component {
           <ul className="stock-search__results-list">
             {this.state.matchingStocks.map((stock) => {
               return (
-                <li key={stock.symbol}>
-                  {stock.name} - {stock.price}
+                <li key={stock.id}>
+                  <div>{stock.attributes.title}</div>
+                  <div className="stock-search__results-list__company-meta">
+                    <div className="stock-search__results-list__company-meta__price">{stock.attributes.stock_price}</div>
+                    <h4>{stock.attributes.company_name}</h4>
+                  </div>
                 </li>
               )
             })}
