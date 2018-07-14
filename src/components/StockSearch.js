@@ -23,13 +23,13 @@ class StockSearch extends Component {
 
   fetchStocks(event) {
     event.preventDefault();
+
     const searchStock = this.state.searchedStock;
-    fetch("https://sampleendpoint.com")
+    fetch('https://stockwatch-api.shropnet.net/jsonapi/node/stock')
       .then(res => res.json())
       .then(
         (result) => {
           console.log(result, 'Result')
-
           if (result.data) {
             this.setState({
               matchingStocks: result.data

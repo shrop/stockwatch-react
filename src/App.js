@@ -53,7 +53,7 @@ class App extends Component {
       const contentaOauth = new ClientOAuth2({
         clientId: '96d57f1d-19a1-4ba4-9db0-055bb2e4c523',
         authorizationUri: 'https://stockwatch-api.shropnet.net/oauth/authorize',
-        redirectUri: 'https://stockwatch.shropnet.net'
+        redirectUri: 'http://localhost:3000'
       })
 
       let url = window.location.href;
@@ -77,7 +77,7 @@ class App extends Component {
       login = <Welcome />;
       search = <StockSearch />;
     } else {
-      login = <LoginForm />;
+      login = <div>Welcome!</div>;
     }
 
     return (
