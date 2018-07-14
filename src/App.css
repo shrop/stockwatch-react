@@ -68,3 +68,22 @@ body {
 /**
  * Search box and results.
  */
+.stock-search__results-list {
+  padding: 0;
+}
+.stock-search__results-list li {
+  display: block;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #d9d9d9;
+}
+.stock-search__results-list__company-meta {
+  overflow: hidden;
+}
+.stock-search__results-list__company-meta__price {
+  float: right;
+  display: block;
+  background: #ccc;
+  padding: 5px;
+  border-radius: 5px;
+}
