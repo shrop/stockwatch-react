@@ -5,10 +5,6 @@ import logoImageInline from '../assets/logo-inline.svg';
 import logoImageMark from '../assets/logo-mark.svg';
 
 class Logo extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     let logoPath;
     if (this.props.style === 'mark') {
