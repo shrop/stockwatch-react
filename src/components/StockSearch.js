@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../App.css';
-import JsonApi from 'devour-client'
 
 class StockSearch extends Component {
 
@@ -24,10 +23,15 @@ class StockSearch extends Component {
   fetchStocks(event) {
     event.preventDefault();
 
-    const searchStock = this.state.searchedStock;
-    const stockEndPoint = 'https://stockwatch-api.shropnet.net/jsonapi/node/stock';
-    const searchParams = 'filter[title][value]=' + searchStock + '&filter[title][operator]==';
-    fetch(stockEndPoint + '?' + searchParams)
+    let searchStock = this.state.searchedStock;
+    let stockEndPoint = 'https://stockwatch-api.shropnet.net/jsonapi/node/stock';
+    let searchParams = 'filter[title][value]=' + searchStock + '&filter[title][operator]==';
+
+    if (searchStock) {
+      stockEndPoint = stockEndPoint + '?' + searchParams;
+    }
+
+    fetch(stockEndPoint)
       .then(res => res.json())
       .then(
         (result) => {
