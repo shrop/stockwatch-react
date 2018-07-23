@@ -1,32 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import { css } from 'emotion'
-
-const stockList = css`
-  padding: 0;
-`
-
-const stockItem = css`
-  display: block;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #d9d9d9;
-`
-const stockPrice = css`
-  color: #ffffff;
-  background: #34CA6E;
-  padding: 0.5rem;
-  border-radius: 5px;
-  float: right;
-`
-const stockTitle = css`
-  color: #444444;
-  font-size: 1.5rem;
-`
-const stockName = css`
-  color: #999999;
-  font-size: 0.8rem;
-`
+import StockList from './StockList';
 
 class StockSearch extends Component {
 
@@ -88,17 +62,7 @@ class StockSearch extends Component {
         </form>
 
         <div className="stock-search__results">
-          <ul className={stockList}>
-            {this.state.matchingStocks.map((stock) => {
-              return (
-                <li className={stockItem} key={stock.id}>
-                  <div className={stockPrice}>{stock.attributes.stock_price}</div>
-                  <div className={stockTitle}>{stock.attributes.title}</div>
-                  <div className={stockName}>{stock.attributes.company_name}</div>
-                </li>
-              )
-            })}
-          </ul>
+          <StockList stocks={this.state.matchingStocks} />
         </div>
       </div>
     );
