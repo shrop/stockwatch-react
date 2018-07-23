@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import '../App.css';
+import Logo from './Logo'
 
 class Welcome extends Component {
 
   render() {
     return (
-      <h3>Welcome!</h3>
+      <Logo />
     );
   }
 }
