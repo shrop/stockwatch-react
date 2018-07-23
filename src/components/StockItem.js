@@ -55,7 +55,6 @@ class StockItem extends Component {
   }
 
   render() {
-    console.log(this.props, this.props.stock.id + ' -- Unique Key');
     return (
       <div className={stockItem}>
         <div className={stockItemColumn1}>
