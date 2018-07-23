@@ -7,10 +7,10 @@ import logoImageMark from '../assets/logo-mark.svg';
 class Logo extends Component {
   render() {
     let logoPath;
-    if (this.props.style === 'mark') {
+    if (this.props.logoStyle === 'mark') {
       logoPath = logoImageMark
     }
-    else if (this.props.style === 'inline') {
+    else if (this.props.logoStyle === 'inline') {
       logoPath = logoImageInline
     }
     else {

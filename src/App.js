@@ -84,7 +84,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <div className="App-header__wrapper container">
-            <Logo style="mark" />
+            <Logo logoStyle="mark" />
 
             <div className="App-header__title">Stockwatch</div>
 
