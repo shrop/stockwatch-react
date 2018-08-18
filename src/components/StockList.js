@@ -5,10 +5,8 @@ class StockList extends Component {
   render() {
     return (
       <div>
-        {this.props.stocks.map((stock) => {
-          return (
-            <StockItem key={stock.id} stock={stock} />
-          )
+        {this.props.stocks.map(stock => {
+          return <StockItem key={stock.id} stock={stock} />;
         })}
       </div>
     );
