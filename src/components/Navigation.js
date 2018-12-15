@@ -51,14 +51,22 @@ class Navigation extends React.Component {
         </Navbar.Header>
         <Nav pullRight>
           {this.state.links.map((link, index) => {
-            {
-              if (link.permission == this.state.userState) {
+            if (link.permission === this.state.userState) {
+              if (this.props.match.url === link.path) {
+                return (
+                  <NavItem key={index} className="active" href={link.path}>
+                    {link.text}
+                  </NavItem>
+                );
+              } else {
                 return (
                   <NavItem key={index} href={link.path}>
                     {link.text}
                   </NavItem>
                 );
               }
+            } else {
+              return false;
             }
           })}
         </Nav>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import Logo from './Logo';
 import '../App.css';
 
@@ -26,8 +26,6 @@ class LoginForm extends Component {
   }
 
   render() {
-    let buttonText;
-
     if (this.props.isLoggedIn === true) {
       this.setState.buttonText = 'Log Out';
     } else {

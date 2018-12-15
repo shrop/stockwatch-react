@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import StockList from './StockList';
+import Navigation from './Navigation';
 import {
   Grid,
   Row,
@@ -73,34 +74,39 @@ class StockSearch extends Component {
   render() {
     console.log(this.state.matchingStocks);
     return (
-      <Grid>
-        <Row>
-          <Col>
-            <PageHeader>Stock Search</PageHeader>
-          </Col>
-        </Row>
-        <Row>
-          <form className="stock-search__form" onSubmit={this.fetchStocks}>
-            <FormGroup>
-              <InputGroup>
-                <FormControl
-                  type="text"
-                  placeholder="Search for stock(s) by symbol. E.g. AAPL,MSFT,VOD.L"
-                  value={this.state.searchedStock}
-                  onChange={this.handleChange}
-                />
-                <InputGroup.Button>
-                  <Button bsStyle="primary">Search</Button>
-                </InputGroup.Button>
-              </InputGroup>
-            </FormGroup>
-          </form>
+      <React.Fragment>
+        <Navigation match={this.props.match} />
+        <Grid>
+          <Row>
+            <Col>
+              <PageHeader>Stock Search</PageHeader>
+            </Col>
+          </Row>
+          <Row>
+            <form className="stock-search__form" onSubmit={this.fetchStocks}>
+              <FormGroup>
+                <InputGroup>
+                  <FormControl
+                    type="text"
+                    placeholder="Search for stock(s) by symbol. E.g. AAPL,MSFT,VOD.L"
+                    value={this.state.searchedStock}
+                    onChange={this.handleChange}
+                  />
+                  <InputGroup.Button>
+                    <Button bsStyle="success" onClick={this.fetchStocks}>
+                      Search
+                    </Button>
+                  </InputGroup.Button>
+                </InputGroup>
+              </FormGroup>
+            </form>
 
-          <div className="stock-search__results">
-            <StockList stocks={this.state.matchingStocks} />
-          </div>
-        </Row>
-      </Grid>
+            <div className="stock-search__results">
+              <StockList stocks={this.state.matchingStocks} />
+            </div>
+          </Row>
+        </Grid>
+      </React.Fragment>
     );
   }
 }

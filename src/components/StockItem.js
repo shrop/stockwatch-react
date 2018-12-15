@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { css } from 'emotion';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 const stockItem = css`
   padding-top: 1.5rem;
@@ -35,10 +35,6 @@ const stockItemChange__positive = stockItemChange + ' positive';
 const stockItemChange__negative = stockItemChange + ' negative';
 
 class StockItem extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Row className={stockItem}>

@@ -1,70 +1,53 @@
 import React from 'react';
 import { Grid, Row, Col, PageHeader } from 'react-bootstrap';
 import StockList from './StockList';
+import Navigation from './Navigation';
 
 class Dashboard extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      stocks: []
+    };
+  }
+
+  componentDidMount() {
+    this.getStocks();
+  }
+
+  getStocks() {
+    const stockEndPoint =
+      'https://stockwatch-api.shropnet.net/jsonapi/node/stock';
+
+    fetch(stockEndPoint)
+      .then(res => res.json())
+      .then(result => {
+        if (result.data) {
+          this.setState({
+            stocks: result.data
+          });
+        } else {
+          this.setState({
+            stocks: []
+          });
+        }
+      });
+  }
   render() {
-    const testStocks = [
-      {
-        id: 123123,
-        attributes: {
-          title: 'AAPL',
-          company_name: 'Apple Inc.',
-          stock_price: 23.32
-        }
-      },
-      {
-        id: 123121,
-        attributes: {
-          title: 'AAPL',
-          company_name: 'Apple Inc.',
-          stock_price: 23.32
-        }
-      },
-      {
-        id: 123144,
-        attributes: {
-          title: 'AAPL',
-          company_name: 'Apple Inc.',
-          stock_price: 23.32
-        }
-      },
-      {
-        id: 1231123,
-        attributes: {
-          title: 'AAPL',
-          company_name: 'Apple Inc.',
-          stock_price: 23.32
-        }
-      },
-      {
-        id: 1254423,
-        attributes: {
-          title: 'AAPL',
-          company_name: 'Apple Inc.',
-          stock_price: 23.32
-        }
-      },
-      {
-        id: 126533,
-        attributes: {
-          title: 'AAPL',
-          company_name: 'Apple Inc.',
-          stock_price: 23.32
-        }
-      }
-    ];
     return (
-      <Grid>
-        <Row>
-          <Col>
-            <PageHeader>Dashboard</PageHeader>
-          </Col>
-        </Row>
-        <Row>
-          <StockList stocks={testStocks} />
-        </Row>
-      </Grid>
+      <React.Fragment>
+        <Navigation match={this.props.match} />
+        <Grid>
+          <Row>
+            <Col>
+              <PageHeader>Dashboard</PageHeader>
+            </Col>
+          </Row>
+          <Row>
+            <StockList stocks={this.state.stocks} />
+          </Row>
+        </Grid>
+      </React.Fragment>
     );
   }
 }
