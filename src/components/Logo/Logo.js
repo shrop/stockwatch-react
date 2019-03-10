@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import logoImage from '../assets/logo.svg';
-import logoImageInline from '../assets/logo-inline.svg';
-import logoImageMark from '../assets/logo-mark.svg';
+import logoImage from '../../assets/logo.svg';
+import logoImageInline from '../../assets/logo-inline.svg';
+import logoImageMark from '../../assets/logo-mark.svg';
 import { css } from 'emotion';
 
 let logoStyles = css`
