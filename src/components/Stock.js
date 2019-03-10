@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import '../App.css';
 import JsonApi from 'devour-client';
 
+/**
+ * Not currently used but has code for reference.
+ */
 class Stock extends Component {
   constructor(props) {
     super(props);
