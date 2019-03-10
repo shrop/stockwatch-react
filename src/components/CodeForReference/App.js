@@ -6,6 +6,9 @@ import Welcome from './components/Welcome';
 import StockSearch from './components/StockSearch';
 import ClientOAuth2 from 'client-oauth2';
 
+/**
+ * Not currently used but has code for reference.
+ */
 class App extends Component {
   constructor(props) {
     super(props);
