@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import logoImage from '../../assets/logo.svg';
 import logoImageInline from '../../assets/logo-inline.svg';
 import logoImageMark from '../../assets/logo-mark.svg';
-import { css } from 'emotion';
-
-let logoStyles = css`
-  max-width: 100%;
-`;
+import PropTypes from 'prop-types';
+import './Logo.scss';
 
 class Logo extends Component {
   constructor(props) {
@@ -19,20 +16,28 @@ class Logo extends Component {
     // Select the correct size logo based on what prop value is passed in
     // for 'logoVariant'.
     if (this.props.logoVariant === 'mark') {
-      this.state.logoPath = logoImageMark;
+      this.setState(() => ({
+        logoPath: logoImageMark
+      }));
     } else if (this.props.logoVariant === 'inline') {
-      this.state.logoPath = logoImageInline;
+      this.setState(() => ({
+        logoPath: logoImageInline
+      }));
     }
   }
   render() {
     return (
       <img
-        className={logoStyles + ' stockwatch-logo'}
+        className="stockwatch-logo"
         src={this.state.logoPath}
         alt={this.state.logoAlt}
       />
     );
   }
+}
+
+Logo.propTypes = {
+  logoVariant: PropTypes.string
 }
 
 export default Logo;
