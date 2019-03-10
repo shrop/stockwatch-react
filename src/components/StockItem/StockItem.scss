@@ -1,0 +1,46 @@
+.stock__item-wrapper {
+  padding-top: 1.5rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid #d1d1d1;
+}
+.stock__item {
+  display: flex;
+
+  .stock__company-info {
+    flex: 50% 1 1;
+  }
+
+  .stock__stock-price {
+    flex: 10% 1 1;
+  }
+
+  .stock__see-details {
+    display: flex;
+    align-items: center;
+  }
+}
+.stock__symbol {
+  color: #444444;
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 1.46428571;
+}
+
+.stock__name {
+  color: #999999;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.stock__item-change {
+  display: inline-block;
+  font-size: 1.5rem;
+
+  &.positive {
+    color: #34ca6e;
+  }
+
+  &.negative {
+    color: #f46168;
+  }
+}
