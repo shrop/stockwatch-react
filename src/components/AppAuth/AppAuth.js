@@ -1,13 +1,9 @@
-import React from 'react';
-
 export const appAuth = {
   isAuthenticated: false,
   authenticate(cb) {
     // TODO: Wire up with contentaOauth.
     this.isAuthenticated = true;
     setTimeout(cb, 100);
-    console.log('ho');
-    return true;
   },
   signout(cb) {
     this.isAuthenticated = false;
