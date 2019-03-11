@@ -1,0 +1,15 @@
+.react-autosuggest__suggestions-container {
+  .react-autosuggest__suggestions-list {
+    padding: 0;
+
+    li {
+      display: block;
+    }
+  }
+}
+.stocksearch__suggestion {
+  padding: 1rem;
+  border-bottom: 1px solid #ECECEC;
+  display: flex;
+  justify-content: space-between;
+}
