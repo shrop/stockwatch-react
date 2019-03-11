@@ -1,72 +1,35 @@
 import React, { Component } from 'react';
-import StockList from '../StockList/StockList';
+import ReactDOM from 'react-dom';
 import StockItem from '../StockItem/StockItem';
-import Navigation from '../Navigation/Navigation';
 import Autosuggest from 'react-autosuggest';
+import {StockAPI} from '../StockAPI/StockAPI.js';
 import axios from 'axios';
-
-/**
- * LOTS OF WIP here.
- */
-
-import {
-  Grid,
-  Row,
-  Col,
-  PageHeader,
-  Button,
-  FormGroup,
-  InputGroup,
-  FormControl
-} from 'react-bootstrap';
+import './StockSearch.scss';
 
 class StockSearch extends Component {
   constructor(props) {
     super(props);
-    this.stockEndPoint =
-      'https://stockwatch-api.shropnet.net/jsonapi/node/stock';
+    // this.stockEndPoint =
+    //   'https://stockwatch-api.shropnet.net/jsonapi/node/stock';
+
+    this.allStockSymbols = [];
 
     this.state = {
       searchedStock: '',
       matchingStocks: [],
-      allStockSymbols: [],
       value: '',
       suggestions: []
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.fetchStocks = this.fetchStocks.bind(this);
-    this.getAllStocks = this.getAllStocks.bind(this);
+    this.fetchStock = this.fetchStock.bind(this);
   }
 
   componentDidMount() {
-    let symbol = 'AAPL';
-    let token = 'pk_3d12c4e90ede4d44a066ab6573730347';
-    const endpoint = `https://cloud.iexapis.com`;
-    const stockEndpoint = endpoint + `/beta/stock/${symbol}/quote?token=${token}`;
-    const logoEndpoint = endpoint + `/stock/${symbol}/logo?token=${token}`;
-
-    // Getting freebie info from https://api.iextrading.com/1.0/
-    // Options: /5y, /2y, /1y, /ytd, /6m, /3m, /1m, /1d.
-    const range = '3m';
-    const stockInfoEndpoint = 'https://api.iextrading.com/1.0';
-    const allSymbols = stockInfoEndpoint + '/ref-data/symbols';
-    const stockInfoChartDataEndpoint = stockInfoEndpoint + `/stock/${symbol}/chart/dynamic`;
-    const stockInfoChartDataRange = stockInfoChartDataEndpoint + `/${range}`;
-
-    let symbolsData;
     let self = this;
-    axios.get(allSymbols)
-      .then(function (response) {
-        symbolsData = response;
-        self.setState({
-          allStockSymbols: response.data
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    console.log(symbolsData, 'Symbols - ' + allSymbols);
+    StockAPI.getAllSymbolsPromise().then(function(response) {
+      self.allStockSymbols = response.data;
+    })
   }
 
   handleChange = (event, { newValue }) => {
@@ -74,27 +37,12 @@ class StockSearch extends Component {
       value: newValue,
       searchedStock: newValue,
     });
-
-    console.log(event.target.value, newValue);
   };
-
-  getAllStocks() {
-    fetch(this.stockEndPoint)
-      .then(res => res.json())
-      .then(result => {
-        if (result.data) {
-          return result.data;
-        } else {
-          return [];
-        }
-      });
-  }
 
   // When suggestion is clicked, Autosuggest needs to populate the input
   // based on the clicked suggestion. Teach Autosuggest how to calculate the
   // input value for every given suggestion.
   getSuggestionValue = suggestion => {
-    console.log(suggestion);
     return suggestion.symbol;
   }
 
@@ -104,33 +52,42 @@ class StockSearch extends Component {
     this.setState({
       suggestions: this.getSuggestions(value)
     });
-    console.log('Suggestions callsed');
   }
 
   onSuggestionsClearRequested = () => {
     this.setState({
       suggestions: []
     });
-
-    console.log('Suggestions Cleared');
   };
 
+  // Only render solutions when the user has typed more than 2 characters.
   shouldRenderSuggestions = (value) => {
     return value.trim().length > 2;
   }
 
   // Use your imagination to render suggestions.
   renderSuggestion = suggestion => (
-    suggestion.name
+    <div className="stocksearch__suggestion">
+      <div className="stock-search__suggestion-name">{suggestion.name}</div>
+      <div className="stock-search__suggestion-symbol">{suggestion.symbol}</div>
+    </div>
   );
 
   onSuggestionSelected = (event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) => {
-    console.log(event, 'Selection is selected');
+    // When a suggestion is selected with the mouse or keyboard,
+    // we are submitting the form manually so that the stock data is fetched.
+    // Set the value of the stocksearch form input.
+    this.refs.stocksearch.stock_search.value = suggestionValue;
+
+    // Trigger a manual submit of the form in such a way that the onClick
+    // handler is also fired.
+    ReactDOM.findDOMNode(this.refs.stocksearch).dispatchEvent(new Event('submit'));
+
   }
 
   // Teach Autosuggest how to calculate suggestions for any given input value.
   getSuggestions = (query) => {
-    let pool = this.state.allStockSymbols;
+    let pool = this.allStockSymbols;
 
     const inputValue = query.trim().toLowerCase();
     const inputLength = inputValue.length;
@@ -140,47 +97,19 @@ class StockSearch extends Component {
     );
   }
 
-  fetchStocks(event) {
+  fetchStock(event) {
     event.preventDefault();
 
-    // let searchStock = this.state.searchedStock;
-    // let searchParams =
-    //   'filter[title][value]=' + searchStock + '&filter[title][operator]==';
-    // let stockEndPointSearch = '';
-    // if (searchStock) {
-    //   stockEndPointSearch = this.stockEndPoint + '?' + searchParams;
-    // }
-
-    // fetch(stockEndPointSearch)
-    //   .then(res => res.json())
-    //   .then(result => {
-    //     if (result.data) {
-    //       this.setState({
-    //         matchingStocks: result.data
-    //       });
-    //     } else {
-    //       this.setState({
-    //         matchingStocks: []
-    //       });
-    //     }
-    //   });
-
-    let symbol = this.state.searchedStock;
-    let token = 'pk_3d12c4e90ede4d44a066ab6573730347';
-    const endpoint = `https://cloud.iexapis.com`;
-    const stockEndpoint = endpoint + `/beta/stock/${symbol}/quote?token=${token}`;
-    const logoEndpoint = endpoint + `/stock/${symbol}/logo?token=${token}`;
-
+    let symbol = event.target.stock_search.value;
     let self = this;
-    axios.get(stockEndpoint)
-      .then(function (response) {
-        self.setState({
-          matchingStocks: response.data
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
+    StockAPI.getStockInfoPromise(symbol).then(function (response) {
+      self.setState({
+        matchingStocks: response.data
       });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   render() {
@@ -190,66 +119,41 @@ class StockSearch extends Component {
     const inputProps = {
       placeholder: 'Search by company name',
       value,
-      onChange: this.handleChange
+      name: "stock_search",
+      onChange: this.handleChange,
+      className: "form-control"
     };
 
     let stockDetail = null;
     if (this.state.matchingStocks.length !== 0) {
       stockDetail = (
         <div className="stock-search__results">
-          <StockItem stock={this.state.matchingStocks} />
+          <StockItem key={this.state.matchingStocks.symbol} stock={this.state.matchingStocks.symbol} />
         </div>
       );
     }
 
     return (
-      <React.Fragment>
-        <Navigation
-          match={this.props.match}
-          isLoggedIn={this.props.isLoggedIn}
-        />
+      <div className="container">
+        <h1>Stock Search</h1>
+        <form className="stock-search__form" onSubmit={this.fetchStock} ref="stocksearch">
+          <div className="form-group">
+            <Autosuggest
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+              getSuggestionValue={this.getSuggestionValue}
+              renderSuggestion={this.renderSuggestion}
+              inputProps={inputProps}
+              onSuggestionSelected={this.onSuggestionSelected}
+              shouldRenderSuggestions={this.shouldRenderSuggestions}
+            />
+          </div>
+        </form>
 
-        <Grid>
-          <Row>
-            <Col>
-              <PageHeader>Stock Search</PageHeader>
-            </Col>
-          </Row>
-          <Row>
+        {stockDetail}
 
-            <form className="stock-search__form" onSubmit={this.fetchStocks}>
-              {/* <FormGroup>
-                <InputGroup>
-                  <FormControl
-                    type="text"
-                    placeholder="Search for stock(s) by symbol. E.g. AAPL,MSFT,VOD.L"
-                    value={this.state.searchedStock}
-                    onChange={this.handleChange}
-                  />
-                  <InputGroup.Button>
-                    <Button bsStyle="success" onClick={this.fetchStocks}>
-                      Search
-                    </Button>
-                  </InputGroup.Button>
-                </InputGroup>
-              </FormGroup> */}
-              <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                getSuggestionValue={this.getSuggestionValue}
-                renderSuggestion={this.renderSuggestion}
-                inputProps={inputProps}
-                onSuggestionSelected={this.onSuggestionSelected}
-                shouldRenderSuggestions={this.shouldRenderSuggestions}
-              />
-            </form>
-
-            {stockDetail}
-
-          </Row>
-        </Grid>
-      </React.Fragment>
+      </div>
     );
   }
 }
