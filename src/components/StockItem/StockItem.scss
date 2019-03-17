@@ -1,7 +1,15 @@
 .stock__item-wrapper {
-  padding-top: 1.5rem;
-  padding-bottom: 1.75rem;
+  padding: 1.5rem 2rem 1.75rem 2rem;
   border-bottom: 1px solid #d1d1d1;
+
+  &.active-stock {
+    background-color: #35495D;
+    color: #fff;
+
+    .stock__symbol {
+      color: #d1d1d1;
+    }
+  }
 }
 .stock__item {
   display: flex;

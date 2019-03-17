@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import StockItemDetails from '../StockItemDetails/StockItemDetails';
 import './StockItem.scss';
 import axios from 'axios';
@@ -16,6 +17,8 @@ class StockItem extends Component {
   }
 
   showFullDetails() {
+    const stockRow = ReactDOM.findDOMNode(this.refs.stockItem);
+    stockRow.classList.add('active-stock');
     this.setState(() => ({
       showFullDetails: true
     }));
@@ -56,7 +59,7 @@ class StockItem extends Component {
     console.log(this.state.stockData);
 
     return (
-      <div className="stock__item-wrapper">
+      <div className="stock__item-wrapper" ref="stockItem">
         <div className="stock__item">
           <div className="stock__company-info">
             <div className="stock__symbol">{this.state.stockData.symbol}</div>
@@ -75,7 +78,7 @@ class StockItem extends Component {
           </div>
 
           <div className="stock__see-details">
-            <button onClick={this.showFullDetails}>Details</button>
+            <button onClick={this.showFullDetails}>Buy</button>
           </div>
         </div>
 
