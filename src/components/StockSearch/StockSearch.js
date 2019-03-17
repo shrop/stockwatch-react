@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import StockItem from '../StockItem/StockItem';
 import Autosuggest from 'react-autosuggest';
 import {StockAPI} from '../StockAPI/StockAPI.js';
-import axios from 'axios';
 import './StockSearch.scss';
 
 class StockSearch extends Component {
