@@ -49,7 +49,24 @@ class StockItemDetails extends React.Component {
 
   render() {
     console.log(this.state.stockDetails, 'Stock Deets');
-    return <div>Stock Item Deets yo for {this.props.stock}</div>;
+    return (
+      <div className="stock-item__details">
+        <div className="row">
+          <div className="stock-item__details-chart col-lg-4 col-md-6">
+            <img
+              className="img-rounded img-responsive"
+              src="http://placeimg.com/400/400/tech/grayscale"
+              alt=""
+            />
+          </div>
+          <div className="col-lg-8 col-md-6">
+            buy it
+          </div>
+        </div>
+
+        Stock Item Deets yo for {this.props.stock}
+      </div>
+    );
   }
 }
 

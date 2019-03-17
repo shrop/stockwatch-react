@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 class StockList extends Component {
   render() {
-    console.log(this.props.stocks, 'Stock props');
     return (
       <div>
         {this.props.stocks.map((stock, index) => {
