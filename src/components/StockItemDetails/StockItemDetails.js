@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactHighstock from 'react-highcharts/ReactHighstock.src';
 import './StockItemDetails.scss';
+import {StockAPI} from '../StockAPI/StockAPI.js';
 import axios from 'axios';
 
 class StockItemDetails extends React.Component {
@@ -25,37 +26,22 @@ class StockItemDetails extends React.Component {
       stockAmount: ''
     };
 
-    this.getChartingData = this.getChartingData.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
-    this.getChartingData(this.props.stock);
-  }
-
-  getChartingData(stock) {
-    // Getting freebie info from https://api.iextrading.com/1.0/
-    // Options: /5y, /2y, /1y, /ytd, /6m, /3m, /1m, /1d.
-    const stockInfoEndpoint = 'https://api.iextrading.com/1.0';
-    const stockInfoChartDataEndpoint = stockInfoEndpoint + `/stock/${stock}/chart/dynamic`;
-    const stockInfoChartDataRange = stockInfoChartDataEndpoint + `/${this.state.stockRange}`;
-
     let self = this;
-    axios.get(stockInfoChartDataRange)
-      .then(function (response) {
-        // Store data in a way we can Chart it.
-        const stockChartDetails = response.data.data.map((dataPoint) => {
-          let Timestamp = (new Date(dataPoint.date).getTime());
-          return [Timestamp, dataPoint.close];
-        });
-
-        self.setState(() => ({
-          stockDetails: stockChartDetails
-        }));
-      })
-      .catch(function (error) {
-        console.log(error, 'The error');
+    StockAPI.getStockHistoryPromise(this.props.stock, this.state.stockRange).then(function(response) {
+      // Store data in a way we can Chart it.
+      const stockChartDetails = response.data.map((dataPoint) => {
+        let Timestamp = (new Date(dataPoint.date).getTime());
+        return [Timestamp, dataPoint.close];
       });
+
+      self.setState(() => ({
+        stockDetails: stockChartDetails
+      }));
+    })
   }
 
   handleChange(event){
@@ -76,12 +62,37 @@ class StockItemDetails extends React.Component {
   }
 
   handleSubmit(event){
-    alert('A name was submitted: ' + this.state.stockAmount);
+    alert(`You have made a trade for ${this.state.stockAmount} of ${this.props.stock} stock`);
     event.preventDefault();
+
+    const transaction = {
+      type: 'node--transaction',
+      attributes: {
+        title: 'Stock Transaction by admin',
+        stock_symbol: '',
+        stock_price: 40,
+        stock_quantity: 4
+      }
+    };
+
+    const serverAPI = 'https://stockwatch-api.shropnet.net/api/node/transaction';
+
+    axios({
+      method: 'post',
+      url: serverAPI,
+      data: transaction
+    })
+    .then(function (response) {
+        console.log(response, 'Post Response Good');
+    })
+    .catch(function (error) {
+        console.log(error, 'Err Fail');
+    });
+
   }
 
   render() {
-    var config = {
+    var chartConfig = {
       rangeSelector: {
         selected: 1
       },
@@ -96,7 +107,7 @@ class StockItemDetails extends React.Component {
         }
       }]
     };
-    const stockPerformanceChart = <ReactHighstock config={config} />
+    const stockPerformanceChart = <ReactHighstock config={chartConfig} />
 
     return (
       <div className="stock-item__details">
@@ -109,26 +120,26 @@ class StockItemDetails extends React.Component {
 
             <form action="" className="form-horizontal" onSubmit={this.handleSubmit}>
               <div class="form-group">
-                <label htmlFor="numberOfShares" className="col-sm-8">Shares of {this.props.stock}</label>
-                <div className="col-sm-4">
+                <label htmlFor="numberOfShares" className="col-xs-8">Shares of {this.props.stock}</label>
+                <div className="col-xs-4">
                   <input type="text" className="form-control" value={this.state.value} onChange={this.handleChange} id="numberOfShares" placeholder="0" />
                 </div>
               </div>
 
               <div class="form-group">
-                <div className="col-sm-8">
+                <div className="col-xs-8">
                   <p>Market Price</p>
                 </div>
-                <div className="col-sm-4">
+                <div className="col-xs-4">
                   <p className="pull-right">{this.props.price}</p>
                 </div>
               </div>
 
               <div class="form-group">
-                <div className="col-sm-8">
+                <div className="col-xs-8">
                   <p>Cost</p>
                 </div>
-                <div className="col-sm-4">
+                <div className="col-xs-4">
                   <p className="pull-right">{this.state.totalCost}</p>
                 </div>
               </div>
