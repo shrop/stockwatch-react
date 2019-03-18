@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactHighstock from 'react-highcharts/ReactHighstock.src';
+import './StockItemDetails.scss';
 import axios from 'axios';
 
 class StockItemDetails extends React.Component {
@@ -7,7 +9,7 @@ class StockItemDetails extends React.Component {
     super();
 
     this.state = {
-      stockDetails: {},
+      stockDetails: [],
       stockRange: '3m',
       stockRangeOptions: [
         '5y',
@@ -18,28 +20,37 @@ class StockItemDetails extends React.Component {
         '3m',
         '1m',
         '1d'
-      ]
+      ],
+      totalCost: '$0.00',
+      stockAmount: ''
     };
 
-    this.getDetailsInfo = this.getDetailsInfo.bind(this);
+    this.getChartingData = this.getChartingData.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
-    this.getDetailsInfo(this.props.stock);
+    this.getChartingData(this.props.stock);
   }
 
-  getDetailsInfo(stock) {
+  getChartingData(stock) {
     // Getting freebie info from https://api.iextrading.com/1.0/
     // Options: /5y, /2y, /1y, /ytd, /6m, /3m, /1m, /1d.
     const stockInfoEndpoint = 'https://api.iextrading.com/1.0';
     const stockInfoChartDataEndpoint = stockInfoEndpoint + `/stock/${stock}/chart/dynamic`;
     const stockInfoChartDataRange = stockInfoChartDataEndpoint + `/${this.state.stockRange}`;
 
-    console.log(stockInfoChartDataRange, 'Chart endpoint');
     let self = this;
     axios.get(stockInfoChartDataRange)
       .then(function (response) {
+        // Store data in a way we can Chart it.
+        const stockChartDetails = response.data.data.map((dataPoint) => {
+          let Timestamp = (new Date(dataPoint.date).getTime());
+          return [Timestamp, dataPoint.close];
+        });
+
         self.setState(() => ({
-          stockDetails: response.data
+          stockDetails: stockChartDetails
         }));
       })
       .catch(function (error) {
@@ -47,31 +58,92 @@ class StockItemDetails extends React.Component {
       });
   }
 
+  handleChange(event){
+    const value = event.target.value;
+    if (isNaN(value)) {
+      return false;
+    } else {
+      const totalCost = value * this.props.price;
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      });
+      this.setState({
+        stockAmount: value,
+        totalCost: formatter.format(totalCost)
+      });
+    }
+  }
+
+  handleSubmit(event){
+    alert('A name was submitted: ' + this.state.stockAmount);
+    event.preventDefault();
+  }
+
   render() {
-    console.log(this.state.stockDetails, 'Stock Deets');
+    var config = {
+      rangeSelector: {
+        selected: 1
+      },
+      title: {
+        text: `${this.props.stock} Stock Performance`
+      },
+      series: [{
+        name: this.props.stock,
+        data: this.state.stockDetails,
+        tooltip: {
+          valueDecimals: 2
+        }
+      }]
+    };
+    const stockPerformanceChart = <ReactHighstock config={config} />
+
     return (
       <div className="stock-item__details">
         <div className="row">
-          <div className="stock-item__details-chart col-lg-4 col-md-6">
-            <img
-              className="img-rounded img-responsive"
-              src="http://placeimg.com/400/400/tech/grayscale"
-              alt=""
-            />
+          <div className="stock-item__details-chart col-lg-8 col-md-6">
+            { stockPerformanceChart }
           </div>
-          <div className="col-lg-8 col-md-6">
-            buy it
+
+          <div className="col-lg-4 col-md-6">
+
+            <form action="" className="form-horizontal" onSubmit={this.handleSubmit}>
+              <div class="form-group">
+                <label htmlFor="numberOfShares" className="col-sm-8">Shares of {this.props.stock}</label>
+                <div className="col-sm-4">
+                  <input type="text" className="form-control" value={this.state.value} onChange={this.handleChange} id="numberOfShares" placeholder="0" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div className="col-sm-8">
+                  <p>Market Price</p>
+                </div>
+                <div className="col-sm-4">
+                  <p className="pull-right">{this.props.price}</p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div className="col-sm-8">
+                  <p>Cost</p>
+                </div>
+                <div className="col-sm-4">
+                  <p className="pull-right">{this.state.totalCost}</p>
+                </div>
+              </div>
+              <button type="submit" className="btn btn-success">Make Trade</button>
+            </form>
           </div>
         </div>
-
-        Stock Item Deets yo for {this.props.stock}
       </div>
     );
   }
 }
 
 StockItemDetails.propTypes = {
-  stock: PropTypes.string.isRequired
+  stock: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired
 }
 
 export default StockItemDetails
