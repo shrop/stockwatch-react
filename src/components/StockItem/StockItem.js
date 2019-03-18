@@ -9,25 +9,36 @@ class StockItem extends Component {
     super();
     this.state = {
       stockData: {},
-      showFullDetails: false
+      showFullDetails: false,
+      detailsText: 'View'
     }
 
     this.getStockData = this.getStockData.bind(this);
-    this.showFullDetails = this.showFullDetails.bind(this);
+    this.toggleFullDetails = this.toggleFullDetails.bind(this);
   }
 
-  showFullDetails() {
+  toggleFullDetails() {
+    // If details are show, remove the class.
     const stockRow = ReactDOM.findDOMNode(this.refs.stockItem);
-    stockRow.classList.add('active-stock');
-    this.setState(() => ({
-      showFullDetails: true
-    }));
+    if (this.state.showFullDetails === true) {
+      stockRow.classList.remove('active-stock');
+      this.setState(() => ({
+        showFullDetails: false,
+        detailsText: 'View'
+      }));
+    } else {
+      stockRow.classList.add('active-stock');
+      this.setState(() => ({
+        showFullDetails: true,
+        detailsText: 'Hide'
+      }));
+    }
   }
 
   getStockData(symbol) {
     // Reach out to API and fetch details.
     const token = 'pk_3d12c4e90ede4d44a066ab6573730347';
-    const endpoint = `https://cloud.iexapis.com`;
+    const endpoint = 'https://cloud.iexapis.com';
     const stockData = endpoint + `/beta/stock/${symbol}/quote?token=${token}`;
 
     let self = this;
@@ -51,7 +62,9 @@ class StockItem extends Component {
     let stockFullDetails;
     if (this.state.showFullDetails) {
       stockFullDetails = (
-        <StockItemDetails stock={this.props.stock} />
+        <StockItemDetails
+          stock={this.props.stock}
+          price={this.state.stockData.latestPrice} />
       );
     } else {
       stockFullDetails = null;
@@ -78,7 +91,7 @@ class StockItem extends Component {
           </div>
 
           <div className="stock__see-details">
-            <button onClick={this.showFullDetails}>Buy</button>
+            <button type="button" class="btn btn-default" onClick={this.toggleFullDetails}>{this.state.detailsText} Details</button>
           </div>
         </div>
 
