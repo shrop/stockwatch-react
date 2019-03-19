@@ -69,16 +69,21 @@ class StockItemDetails extends React.Component {
       type: 'node--transaction',
       attributes: {
         title: 'Stock Transaction by admin',
-        stock_symbol: '',
-        stock_price: 40,
-        stock_quantity: 4
+        stock_symbol: {
+          value: this.props.stock
+        },
+        stock_price: this.state.price,
+        stock_quantity: this.state.stockAmount
       }
     };
 
     const serverAPI = 'https://stockwatch-api.shropnet.net/api/node/transaction';
 
     axios({
-      method: 'post',
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/vnd.api+json"
+      },
       url: serverAPI,
       data: transaction
     })
@@ -119,14 +124,14 @@ class StockItemDetails extends React.Component {
           <div className="col-lg-4 col-md-6">
 
             <form action="" className="form-horizontal" onSubmit={this.handleSubmit}>
-              <div class="form-group">
+              <div className="form-group">
                 <label htmlFor="numberOfShares" className="col-xs-8">Shares of {this.props.stock}</label>
                 <div className="col-xs-4">
                   <input type="text" className="form-control" value={this.state.value} onChange={this.handleChange} id="numberOfShares" placeholder="0" />
                 </div>
               </div>
 
-              <div class="form-group">
+              <div className="form-group">
                 <div className="col-xs-8">
                   <p>Market Price</p>
                 </div>
@@ -135,7 +140,7 @@ class StockItemDetails extends React.Component {
                 </div>
               </div>
 
-              <div class="form-group">
+              <div className="form-group">
                 <div className="col-xs-8">
                   <p>Cost</p>
                 </div>

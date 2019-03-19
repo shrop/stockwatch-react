@@ -91,7 +91,7 @@ class StockItem extends Component {
           </div>
 
           <div className="stock__see-details">
-            <button type="button" class="btn btn-default" onClick={this.toggleFullDetails}>{this.state.detailsText} Details</button>
+            <button type="button" className="btn btn-default" onClick={this.toggleFullDetails}>{this.state.detailsText} Details</button>
           </div>
         </div>
 
