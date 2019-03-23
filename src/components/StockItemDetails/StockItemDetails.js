@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactHighstock from 'react-highcharts/ReactHighstock.src';
 import './StockItemDetails.scss';
 import {StockAPI} from '../StockAPI/StockAPI.js';
-import axios from 'axios';
+import {DrupalAPI} from '../DrupalAPI/DrupalAPI.js';
 
 class StockItemDetails extends React.Component {
   constructor() {
@@ -62,38 +62,11 @@ class StockItemDetails extends React.Component {
   }
 
   handleSubmit(event){
-    alert(`You have made a trade for ${this.state.stockAmount} of ${this.props.stock} stock`);
     event.preventDefault();
 
-    const transaction = {
-      type: 'node--transaction',
-      attributes: {
-        title: 'Stock Transaction by admin',
-        stock_symbol: {
-          value: this.props.stock
-        },
-        stock_price: this.state.price,
-        stock_quantity: this.state.stockAmount
-      }
-    };
-
-    const serverAPI = 'https://stockwatch-api.shropnet.net/api/node/transaction';
-
-    axios({
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/vnd.api+json"
-      },
-      url: serverAPI,
-      data: transaction
-    })
-    .then(function (response) {
-        console.log(response, 'Post Response Good');
-    })
-    .catch(function (error) {
-        console.log(error, 'Err Fail');
+    DrupalAPI.purchaseStockPromise(this.props.stock, this.props.price, this.state.stockAmount).then(function(){
+      console.log('Purchased!');
     });
-
   }
 
   render() {

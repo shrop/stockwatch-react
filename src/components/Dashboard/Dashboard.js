@@ -1,5 +1,6 @@
 import React from 'react';
 import StockList from '../StockList/StockList';
+import {DrupalAPI} from '../DrupalAPI/DrupalAPI.js';
 
 class Dashboard extends React.Component {
   constructor() {
@@ -10,10 +11,22 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    this.setState(() => ({
-      // stocks: this.getMyStocks();
-      stocks: this.mockStocks()
-    }));
+    // this.setState(() => ({
+    //   // stocks: this.getMyStocks();
+    //   stocks: this.mockStocks()
+    // }));
+    const self = this;
+    DrupalAPI.getMyStocksPromise().then(function( response ){
+      console.log(response.data, 'Stocks Mine Datas');
+
+      const myStocks = response.data.data.map((myStock) => (
+        myStock.attributes.stock_symbol.value
+      ));
+
+      self.setState(() => ({
+        stocks: myStocks
+      }));
+    });
   }
 
   mockStocks() {
