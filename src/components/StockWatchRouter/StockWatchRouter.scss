@@ -1,14 +1,23 @@
-.navigation__container-inner {
-  display: flex;
-  justify-content: flex-end;
+.app-navigation {
+  .dropdown:hover {
+    .dropdown-toggle {
+      color: #29BB9C;
+    }
+    .dropdown-menu {
+      display: block;
+      background-color: #35495D;
+      border-radius: 0px;
+      padding: 1rem 2rem;
 
-  .navigation__links {
-    display: flex;
+      a {
+        font-size: 1.5rem;
+      }
+    }
   }
 
-  .navigation__link {
-    display: block;
-    margin-left: 2rem;
+  .dropdown-toggle:after {
+    position: relative;
+    top: 1.2rem;
   }
 }
 

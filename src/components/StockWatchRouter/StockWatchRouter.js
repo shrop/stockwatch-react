@@ -33,14 +33,21 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const AuthButton = withRouter(({ history }) => (
 
   appAuth.isAuthenticated ? (
-    <div className="logout navigation__link">
-      <div className="logout__text">Log Out</div>
-      <div className="logout__button">
-        <button onClick={() => {
-          appAuth.signout(() => history.push('/'))
-        }}>Sign out</button>
-      </div>
-    </div>
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Log out</a>
+      <ul class="dropdown-menu">
+        <li>
+          <a
+            href="#"
+            onClick={() => {
+              appAuth.signout(() => history.push('/'))
+            }}
+          >
+            Sign Out
+          </a>
+        </li>
+      </ul>
+      </li>
   ) : (
     ''
   )
@@ -82,10 +89,12 @@ class StockWatchRouter extends React.Component {
     return (
       <React.Fragment>
         <Router>
-          <div>
-            <div className="navigation__container">
-              <div className="navigation__container-inner container">
-                <ul className="navigation__links">
+          <div className="app-navigation">
+            <nav class="navbar navbar-default navbar-lg navbar-expand-lg" role="navigation">
+              <a class="navbar-brand" href="/">Stockwatch</a>
+
+              <div class="justify-content-between">
+                <ul className="nav navbar-nav navbar-right">
                   {this.state.navigationLinks.map((link, key) => {
                     return <li
                     className="navigation__link"
@@ -93,11 +102,12 @@ class StockWatchRouter extends React.Component {
                       <Link to={link.path}>{link.text}</Link>
                     </li>;
                   })}
+                  {/* Render Logout button */}
+                  <AuthButton />
                 </ul>
-                {/* Render Logout button */}
-                <AuthButton />
+
               </div>
-            </div>
+            </nav>
 
             <Route
               exact path="/"

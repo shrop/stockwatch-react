@@ -57,7 +57,7 @@ export const appAuth = {
 
     setTimeout(cb, 100);
 
-    // Sign out of API also.
+    // Attempt to sign out of API also.
     axios({
       method: 'POST',
       headers: {
@@ -65,6 +65,5 @@ export const appAuth = {
       },
       url: this.OAuthAppSignOut,
     });
-    // http://drupal.d8/user/logout?_format=json
   }
 };
