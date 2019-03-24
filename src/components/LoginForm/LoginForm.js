@@ -14,7 +14,7 @@ class LoginForm extends Component {
 
   login = (event) => {
     event.preventDefault();
-    this.props.auth.authenticate(() => {
+    this.props.auth(() => {
       this.setState(() => ({
         redirectToReferrer: true
       }))
