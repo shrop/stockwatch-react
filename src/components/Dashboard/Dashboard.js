@@ -8,16 +8,19 @@ class Dashboard extends React.Component {
     this.state = {
       stocks: []
     };
+
+    this.getMyStocks = this.getMyStocks.bind(this);
   }
 
   componentDidMount() {
-    // this.setState(() => ({
-    //   // stocks: this.getMyStocks();
-    //   stocks: this.mockStocks()
-    // }));
+    this.getMyStocks();
+  }
+
+  getMyStocks() {
     const self = this;
-    DrupalAPI.getMyStocksPromise().then(function( response ){
-      console.log(response.data, 'Stocks Mine Datas');
+    const stockPromise = DrupalAPI.getMyStocksPromise();
+    stockPromise.then(function( response ){
+      console.log(response, 'Stocks: My Data');
 
       const myStocks = response.data.data.map((myStock) => (
         myStock.attributes.stock_symbol.value
@@ -27,36 +30,6 @@ class Dashboard extends React.Component {
         stocks: myStocks
       }));
     });
-  }
-
-  mockStocks() {
-    return [
-      'GOOGL',
-      'AAPL',
-      'MSFT',
-      'BIP',
-      'ADBE',
-      'CSCO',
-      'DAL',
-      'DIS',
-      'SHMP',
-      'EOG'
-    ]
-  }
-
-  getMyStocks() {
-    const stockEndPoint =
-      'https://stockwatch-api.shropnet.net/jsonapi/node/stock';
-
-    fetch(stockEndPoint)
-      .then(res => res.json())
-      .then(result => {
-        if (result.data) {
-          return result.data
-        } else {
-          return [];
-        }
-      });
   }
 
   render() {
