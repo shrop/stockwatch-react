@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {withRouter} from "react-router-dom";
 import ReactHighstock from 'react-highcharts/ReactHighstock.src';
 import './StockItemDetails.scss';
 import {StockAPI} from '../StockAPI/StockAPI.js';
@@ -64,8 +65,12 @@ class StockItemDetails extends React.Component {
   handleSubmit(event){
     event.preventDefault();
 
+    const self = this;
     DrupalAPI.purchaseStockPromise(this.props.stock, this.props.price, this.state.stockAmount).then(function(){
-      console.log('Purchased!');
+      alert(`Successfully made trade for ${self.props.stock}!`);
+
+      // Redirect to the Dashboard after purchase
+      self.props.history.push('dashboard');
     });
   }
 
@@ -135,4 +140,4 @@ StockItemDetails.propTypes = {
   price: PropTypes.number.isRequired
 }
 
-export default StockItemDetails
+export default withRouter(StockItemDetails)
