@@ -30,6 +30,7 @@ class StockItemDetails extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   componentDidMount() {
     let self = this;
     StockAPI.getStockHistoryPromise(this.props.stock, this.state.stockRange).then(function(response) {
@@ -67,7 +68,8 @@ class StockItemDetails extends React.Component {
 
     const self = this;
     DrupalAPI.purchaseStockPromise(this.props.stock, this.props.price, this.state.stockAmount).then(function(){
-      alert(`Successfully made trade for ${self.props.stock}!`);
+      self.props.notification(`Successfully made trade for ${self.props.stock}!`, 'success');
+      // alert(`Successfully made trade for ${self.props.stock}!`);
 
       // Redirect to the Dashboard after purchase
       self.props.history.push('dashboard');
