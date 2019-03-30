@@ -37,7 +37,8 @@ const DrupalAPI = {
     return axios({
       method: 'POST',
       headers: {
-        "Content-Type": "application/vnd.api+json"
+        "Content-Type": "application/vnd.api+json",
+        "Authorization": "Bearer " + this.getAccessToken()
       },
       url: this.serverAPI,
       data: transaction
@@ -48,9 +49,15 @@ const DrupalAPI = {
     // TODO: Get UUID of the currently logged in user.
     const queryData = qs.stringify({
       filter: {
-        'transaction_owner.id': '8f208229-a56b-40b5-ae32-a7b77d74193e',
+        'someFilter': {
+          'condition': {
+            'path': 'transaction_owner.id',
+            'value': '8f208229-a56b-40b5-ae32-a7b77d74193e'
+          }
+        }
       }
     });
+
     const myStocksEndpoint = this.serverAPI + '?' + queryData;
 
     return axios({
