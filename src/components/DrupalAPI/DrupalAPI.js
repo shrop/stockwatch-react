@@ -11,12 +11,18 @@ const DrupalAPI = {
       return sessionStatus;
     }
   },
+  getCurrentUserID() {
+    let sessionUserId = sessionStorage.getItem('oauthUserId');
+    if (sessionUserId) {
+      return sessionUserId;
+    }
+  },
   purchaseStockPromise(stock, price, quantity) {
     const transaction = {
       data: {
         type: 'node--transaction',
         attributes: {
-          title: `${stock}: Stock Transaction by admin`,
+          title: `${stock}: Stock Transaction`,
           stock_symbol: {
             value: stock
           },
@@ -27,7 +33,7 @@ const DrupalAPI = {
           transaction_owner: {
             data: {
               type: "user--user",
-              id: "8f208229-a56b-40b5-ae32-a7b77d74193e"
+              id: this.getCurrentUserID()
             }
           }
         }
@@ -45,14 +51,12 @@ const DrupalAPI = {
     });
   },
   getMyStocksPromise() {
-    // Still using hardcoded UUID to fetch by.
-    // TODO: Get UUID of the currently logged in user.
     const queryData = qs.stringify({
       filter: {
         'someFilter': {
           'condition': {
             'path': 'transaction_owner.id',
-            'value': '8f208229-a56b-40b5-ae32-a7b77d74193e'
+            'value': this.getCurrentUserID()
           }
         }
       }
