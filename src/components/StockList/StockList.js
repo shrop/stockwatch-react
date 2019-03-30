@@ -7,7 +7,10 @@ class StockList extends Component {
     return (
       <div>
         {this.props.stocks.map((stock, index) => {
-          return <StockItem key={index} stock={stock} />;
+          return <StockItem
+            key={index}
+            stock={stock}
+            notification={this.props.notification} />;
         })}
       </div>
     );

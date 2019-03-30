@@ -127,7 +127,10 @@ class StockSearch extends Component {
     if (this.state.matchingStocks.length !== 0) {
       stockDetail = (
         <div className="stock-search__results">
-          <StockItem key={this.state.matchingStocks.symbol} stock={this.state.matchingStocks.symbol} />
+          <StockItem
+            key={this.state.matchingStocks.symbol}
+            stock={this.state.matchingStocks.symbol}
+            notification={this.props.notification} />
         </div>
       );
     }

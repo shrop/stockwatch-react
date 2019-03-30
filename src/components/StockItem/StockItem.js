@@ -64,7 +64,8 @@ class StockItem extends Component {
       stockFullDetails = (
         <StockItemDetails
           stock={this.props.stock}
-          price={this.state.stockData.latestPrice} />
+          price={this.state.stockData.latestPrice}
+          notification={this.props.notification} />
       );
     } else {
       stockFullDetails = null;

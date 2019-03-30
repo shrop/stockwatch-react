@@ -17,6 +17,8 @@ import Dashboard from '../Dashboard/Dashboard';
 import Home from '../HomePage/HomePage';
 import './StockWatchRouter.scss';
 import {appAuth} from '../AppAuth/AppAuth.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // See: https://tylermcginnis.com/react-router-protected-routes-authentication/
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -78,6 +80,23 @@ class StockWatchRouter extends React.Component {
     appAuth.authStatus();
 
     this.userAuth = this.userAuth.bind(this);
+    this.notification = this.notification.bind(this);
+  }
+
+  notification(text, status) {
+    if (status === 'success') {
+      toast.success(text, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    } else if (status === 'error') {
+      toast.error(text, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    } else {
+      toast.info(text, {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
   }
 
   userAuth(callback) {
@@ -87,7 +106,8 @@ class StockWatchRouter extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <>
+        <ToastContainer />
         <Router>
           <div className="app-navigation">
             <nav className="navbar navbar-default navbar-lg navbar-expand-lg" role="navigation">
@@ -113,15 +133,19 @@ class StockWatchRouter extends React.Component {
               exact path="/"
               render={(props) => <Home {...props} isLoggedIn={this.isLoggedIn} />}
             />
-            <PrivateRoute path='/dashboard' component={Dashboard} />
-            <PrivateRoute path='/stock-search' component={StockSearch} />
+            <PrivateRoute
+              path='/dashboard'
+              component={(props) => <Dashboard {...props} notification={this.notification} />} />
+            <PrivateRoute
+              path='/stock-search'
+              component={(props) => <StockSearch {...props} notification={this.notification} />} />
             <Route
               path="/log-in"
               render={(props) => <LoginForm {...props} auth={this.userAuth} />}
             />
           </div>
         </Router>
-      </React.Fragment>
+      </>
     );
   }
 }

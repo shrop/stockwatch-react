@@ -36,7 +36,9 @@ class Dashboard extends React.Component {
     // If there any stocks, list them, otherwise show empty message.
     let displayStocks;
     if (this.state.stocks.length) {
-      displayStocks = <StockList stocks={this.state.stocks} />
+      displayStocks = <StockList
+        stocks={this.state.stocks}
+        notification={this.props.notification} />
     } else {
       displayStocks = <p>You don't have any stocks in your portfolio.</p>
     }
