@@ -33,9 +33,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const AuthButton = withRouter(({ history }) => (
 
   appAuth.isAuthenticated ? (
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Log out</a>
-      <ul class="dropdown-menu">
+    <li className="dropdown">
+      <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Log out</a>
+      <ul className="dropdown-menu">
         <li>
           <a
             href="#"
@@ -90,10 +90,10 @@ class StockWatchRouter extends React.Component {
       <React.Fragment>
         <Router>
           <div className="app-navigation">
-            <nav class="navbar navbar-default navbar-lg navbar-expand-lg" role="navigation">
-              <a class="navbar-brand" href="/">Stockwatch</a>
+            <nav className="navbar navbar-default navbar-lg navbar-expand-lg" role="navigation">
+              <a className="navbar-brand" href="/">Stockwatch</a>
 
-              <div class="justify-content-between">
+              <div className="justify-content-between">
                 <ul className="nav navbar-nav navbar-right">
                   {this.state.navigationLinks.map((link, key) => {
                     return <li
