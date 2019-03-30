@@ -33,16 +33,18 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 const AuthButton = withRouter(({ history }) => (
-
   appAuth.isAuthenticated ? (
     <li className="dropdown">
-      <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Log out</a>
+      <a href="/" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" onClick={(event) => {
+        event.preventDefault();
+      }}>Log out</a>
       <ul className="dropdown-menu">
         <li>
           <a
-            href="#"
-            onClick={() => {
-              appAuth.signout(() => history.push('/'))
+            href="/"
+            onClick={(event) => {
+              event.preventDefault();
+              appAuth.signout(() => history.push('/'));
             }}
           >
             Sign Out
