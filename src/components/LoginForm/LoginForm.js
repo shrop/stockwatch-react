@@ -60,7 +60,7 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   location: PropTypes.object,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.func
 }
 
 export default LoginForm;
