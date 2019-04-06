@@ -7,8 +7,8 @@ export const appAuth = {
   OAuthAppURL: 'https://stockwatch-api.shropnet.net',
   OAuthAppEndpoint: 'https://stockwatch-api.shropnet.net/oauth/authorize',
   OAuthAppSignOut: 'https://stockwatch-api.shropnet.net/user/logout?_format=json',
-  OAuthAppClientId: 'ce47a835-bf9d-4238-becb-70e0b2090ba1',
-  OAuthAppRedirectUri: 'http://localhost:3000',
+  OAuthAppClientId: process.env.REACT_APP_OAuthAppClientId,
+  OAuthAppRedirectUri: process.env.REACT_APP_OAuthAppRedirectUri,
   authStatus() {
     // Check for an Oauth access token and save to session storage.
     // Also check to see if there's a current accessToken.
@@ -38,9 +38,9 @@ export const appAuth = {
   },
   authenticate(cb) {
     const contentaOauth = new ClientOAuth2({
-      clientId: 'ce47a835-bf9d-4238-becb-70e0b2090ba1',
+      clientId: this.OAuthAppClientId,
       authorizationUri: 'https://stockwatch-api.shropnet.net/oauth/authorize',
-      redirectUri: 'http://localhost:3000'
+      redirectUri: this.OAuthAppRedirectUri
     });
 
     let url = window.location.href;
